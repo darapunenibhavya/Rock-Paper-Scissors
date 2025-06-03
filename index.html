@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors Wireframes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .wireframe {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            border: 1px dashed #999;
+            padding: 20px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .frame {
+            width: 100%;
+            height: 100%;
+        }
+
+        #homeScreen {
+            background-image: url('https://images.squarespace-cdn.com/content/v1/53fcf50be4b093defe8f3284/1584021358164-HZW7UVZOJI2ZEDE2T46N/people-playing-paper-rock-scissors-royalty-free-illustration-1583269312.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: black;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            position: absolute;
+            bottom: 74px;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .startbutton {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            position: absolute;
+            bottom: 20px;
+            font-size: 1rem;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .startbutton:hover {
+            background-color: #0056b3;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .scoreboard, .result {
+            margin: 20px 0;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .choices {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .choices div {
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .choices img {
+            margin: 5px;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .choices img.selected {
+            border: 3px solid #007bff;
+            opacity: 0.8;
+        }
+
+        .choices img:hover {
+            transform: scale(1.1);
+        }
+
+        .choices .label {
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .result {
+            font-weight: bold;
+        }
+
+        .final {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        #gameScreen {
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: black;
+        }
+
+        .choice-images {
+            display: flex;
+            justify-content: space-evenly;
+            margin: 10px 0;
+        }
+
+        .choice-images img {
+            width: 80px;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="frame" id="homeScreen">
+        <h1>Rock-Paper-Scissors</h1>
+        <button class="startbutton" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="gameScreen" style="display: none;">
+        <h2>Make Your Choice</h2>
+        <div class="choices">
+            <div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwGDDBs4FzJBzF0vqc7PmZhMkYfPU_bqHcsg&s" alt="Rock" onclick="playerChoice('Rock', this)">
+                <div class="label">Rock</div>
+            </div>
+            <div>
+                <img src="https://cdn.pixabay.com/photo/2014/03/25/15/26/rock-paper-scissors-296855_1280.png" alt="Paper" onclick="playerChoice('Paper', this)">
+                <div class="label">Paper</div>
+            </div>
+            <div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuAyO92sctlfXVXJCXf0gGZkMuSwncP1O4Vw&s" alt="Scissors" onclick="playerChoice('Scissors', this)">
+                <div class="label">Scissors</div>
+            </div>
+        </div>
+        
+        <div class="choice-images">
+            <div>
+                <p>Player's Choice:</p>
+                <img id="playerImage" src="" alt="Player Choice">
+            </div>
+            <div>
+                <p>Computer's Choice:</p>
+                <img id="computerImage" src="" alt="Computer Choice">
+            </div>
+        </div>
+
+        <div class="scoreboard">
+            Player: <span id="playerScore">0</span> | Computer: <span id="computerScore">0</span>
+        </div>
+        <div class="result" id="resultMessage">Make your move!</div>
+        <button onclick="resetGame()">Reset / Play Again</button>
+    </div>
+
+    <script>
+        const choiceImages = {
+            Rock: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwGDDBs4FzJBzF0vqc7PmZhMkYfPU_bqHcsg&s",
+            Paper: "https://cdn.pixabay.com/photo/2014/03/25/15/26/rock-paper-scissors-296855_1280.png",
+            Scissors: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuAyO92sctlfXVXJCXf0gGZkMuSwncP1O4Vw&s"
+        };
+
+        function startGame() {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+        }
+
+        function playerChoice(choice, element) {
+            const choices = ['Rock', 'Paper', 'Scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+            let playerScore = parseInt(document.getElementById('playerScore').innerText);
+            let computerScore = parseInt(document.getElementById('computerScore').innerText);
+
+            const images = document.querySelectorAll('.choices img');
+            images.forEach(img => img.classList.remove('selected'));
+            element.classList.add('selected');
+
+            document.getElementById('playerImage').src = choiceImages[choice];
+            document.getElementById('computerImage').src = choiceImages[computerChoice];
+
+            if (choice === computerChoice) {
+                document.getElementById('resultMessage').innerText = `It's a Draw! 🙄 You both choose ${choice}`;
+            } else if (
+                (choice === 'Rock' && computerChoice === 'Scissors') ||
+                (choice === 'Paper' && computerChoice === 'Rock') ||
+                (choice === 'Scissors' && computerChoice === 'Paper')
+            ) {
+                document.getElementById('resultMessage').innerText = `You Win! 😊 because ${choice} beats ${computerChoice}`;
+                playerScore++;
+            } else {
+                document.getElementById('resultMessage').innerText = `You Lose! 😔 because ${computerChoice} beats ${choice}`;
+                computerScore++;
+            }
+
+            document.getElementById('playerScore').innerText = playerScore;
+            document.getElementById('computerScore').innerText = computerScore;
+        }
+
+        function resetGame() {
+            document.getElementById('playerScore').innerText = 0;
+            document.getElementById('computerScore').innerText = 0;
+            document.getElementById('resultMessage').innerText = 'Make your move!';
+            document.getElementById('playerImage').src = '';
+            document.getElementById('computerImage').src = '';
+            const images = document.querySelectorAll('.choices img');
+            images.forEach(img => img.classList.remove('selected'));
+        }
+    </script>
+
+</body>
+</html>
